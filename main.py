@@ -42,4 +42,8 @@ def network_connect():
         pin5.off()
         return False
 
+def mac_address():
+    import ubinascii
+    return ubinascii.hexlify(sta_if.config('mac'), ':').decode().upper() 
+
 network_connect()
