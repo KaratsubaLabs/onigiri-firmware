@@ -69,9 +69,10 @@ def pulse_e():
 def init():
     write_byte(0x33, CMD_MODE)  # init sequence
     write_byte(0x32, CMD_MODE)  # init sequence
+    write_byte(0x06, CMD_MODE)
     write_byte(0x0D, CMD_MODE)
     write_byte(0x28, CMD_MODE)
-    clear_screen()
+    write_byte(0x01, CMD_MODE)
     time.sleep(E_DELAY)
 
 
@@ -95,5 +96,5 @@ def display(msg, speed=0.2):
 def test():
     init()
     set_line(LINE_TWO)
-    display('poopoo')
+    display('hello world!')
     time.sleep(1)
