@@ -14,7 +14,7 @@ NETWORK_RETRIES = 10
 #   - LED stays on when connection is established
 #   - LED says off when failed maximum number of network connection retries
 def network_connect():
-    pin5 = Pin(5, Pin.OUT)
+    pin_5 = Pin(5, Pin.OUT)
 
     sta_if = network.WLAN(network.STA_IF) # station interface
     ap_if = network.WLAN(network.AP_IF)   # access point interface
@@ -25,9 +25,9 @@ def network_connect():
     time.sleep(3)
     for i in range(NETWORK_RETRIES):
         for j in range(5):
-            pin5.on()
+            pin_5.on()
             time.sleep(0.1)
-            pin5.off()
+            pin_5.off()
             time.sleep(0.1)
 
         sta_if.connect(config.SSID, config.PSK)
@@ -36,10 +36,10 @@ def network_connect():
             break
 
     if sta_if.isconnected():
-        pin5.on()
+        pin_5.on()
         return True
     else:
-        pin5.off()
+        pin_5.off()
         return False
 
 def mac_address():
@@ -47,3 +47,4 @@ def mac_address():
     return ubinascii.hexlify(sta_if.config('mac'), ':').decode().upper() 
 
 network_connect()
+

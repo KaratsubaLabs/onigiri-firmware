@@ -5,7 +5,11 @@ MAX_BODY_SIZE = 1024
 
 def server():
     import socket
-    
+    import network
+
+    sta_if = network.WLAN(network.STA_IF)
+    print(sta_if.ifconfig())
+
     # TODO error handling
     addr = socket.getaddrinfo('0.0.0.0', PORT)[0][-1]
     s = socket.socket()
@@ -54,16 +58,16 @@ def routes(c, req):
 def handle_switch_set(state):
     from machine import Pin
 
-    pin4 = Pin(4, Pin.OUT)
+    pin_4 = Pin(4, Pin.OUT)
     if state:
-        pin4.on()
+        pin_4.on()
     else:
-        pin4.off()
+        pin_4.off()
 
 def handle_switch_state():
     from machine import Pin
 
-    pin4 = Pin(4, Pin.OUT)
-    print(pin4.value())
-    return pin4.value()
+    pin_4 = Pin(4, Pin.OUT)
+    print(pin_4.value())
+    return pin_4.value()
 
