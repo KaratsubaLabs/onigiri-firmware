@@ -41,3 +41,11 @@ to copy any python code over to the esp board, you can run
 $ ampy --port /dev/ttyUSB0 put main.py main.py
 ```
 
+## devices
+
+devices are each esp8266 enabled module, some potential ones include
+- smart switch
+- blind controller
+- controllable 8 segment display
+- music server volume controller (with rotary encoder + dot matrix as display)
+- sensor module (bunch of sensors)

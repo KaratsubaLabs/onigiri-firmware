@@ -37,6 +37,33 @@ def routes(c, req):
 
     if req['method'] == 'GET' and req['path'] == '/health':
         c.send('HTTP/1.1 200 Ok\n')
+    elif req['method'] == 'POST' and req['path'] == '/switch/on':
+        handle_switch_set(True)
+        c.send('HTTP/1.1 200 Ok\n')
+    elif req['method'] == 'POST' and req['path'] == '/switch/off':
+        handle_switch_set(False)
+        c.send('HTTP/1.1 200 Ok\n')
+    elif req['method'] == 'GET' and req['path'] == '/switch/state':
+        state = handle_switch_state()
+        c.send('HTTP/1.1 200 Ok\n')
+        c.send('Content-Type: application/json\n\n')
+        c.send('{"state": %d}\n' % state)
     else:
         c.send('HTTP/1.1 404 NotFound\n')
+
+def handle_switch_set(state):
+    from machine import Pin
+
+    pin4 = Pin(4, Pin.OUT)
+    if state:
+        pin4.on()
+    else:
+        pin4.off()
+
+def handle_switch_state():
+    from machine import Pin
+
+    pin4 = Pin(4, Pin.OUT)
+    print(pin4.value())
+    return pin4.value()
 
