@@ -37,30 +37,41 @@ def server():
 
 
 def parse_http(raw):
-    split = raw.lstrip("b'").rstrip("'").split()
+    req_lines = raw.lstrip("b'").rstrip("'").split('\\r\\n')
+    header = req_lines[0].split()
+
+    body = ''
+    if req_lines[-2] == '':
+        body = req_lines[-1]
+
     return {
-        'method': split[0],
-        'path': split[1]
+        'method': header[0],
+        'path': header[1],
+        'body': body
     }
 
 
 def routes(c, req):
     if req['method'] == 'GET' and req['path'] == '/health':
         c.send('HTTP/1.1 200 Ok\n')
-    elif req['method'] == 'POST' and req['path'][0:4] == '/lcd':
-        splitted = req['path'].split('/', 3)
+    elif req['method'] == 'POST' and req['path'][0:10] == '/lcd/write':
+        splitted = req['path'].rsplit('/', 1)
 
-        if len(splitted) != 4:
+        if splitted[1] == '1':
+            line = lcd.LINE_ONE
+        elif splitted[1] == '2':
+            line = lcd.LINE_TWO
+        else:
             c.send('HTTP/1.1 400 BadRequest\n')
             return
 
-        line = lcd.LINE_TWO if splitted[2] == '2' else lcd.LINE_ONE
-        message = splitted[3]
-
         lcd.set_line(line)
-        lcd.display(message)
+        lcd.display(req['body'])
 
         c.send('HTTP/1.1 200 Ok\n')
+
+    elif req['method'] == 'POST' and req['path'] == '/lcd/clear':
+        pass
     else:
         c.send('HTTP/1.1 404 NotFound\n')
 
