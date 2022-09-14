@@ -13,11 +13,16 @@
 from machine import Pin
 import time
 
+_DISPLAY_WIDTH = 16
+
 E_PULSE = 0.0005
 E_DELAY = 0.0005
 
 CHR_MODE = True
 CMD_MODE = False
+
+LINE_ONE = 0x80
+LINE_TWO = 0xC0
 
 pin_rs = Pin(4, Pin.OUT)
 pin_e = Pin(2, Pin.OUT)
@@ -35,47 +40,22 @@ def write_byte(data, mode):
     else:
         pin_rs.off()
 
-    # print("=-=-=-=")
-    # print(data & 0x10 == 0x10)
-    # print(data & 0x20 == 0x20)
-    # print(data & 0x40 == 0x40)
-    # print(data & 0x80 == 0x80)
-    # pin_d4.value(data & 0x10 == 0x10)
-    # pin_d5.value(data & 0x20 == 0x20)
-    # pin_d6.value(data & 0x40 == 0x40)
-    # pin_d7.value(data & 0x80 == 0x80)
-
     # high bits
-    pin_d4.off()
-    pin_d5.off()
-    pin_d6.off()
-    pin_d7.off()
-    if data & 0x10 == 0x10:
-        pin_d4.on()
-    if data & 0x20 == 0x20:
-        pin_d5.on()
-    if data & 0x40 == 0x40:
-        pin_d6.on()
-    if data & 0x80 == 0x80:
-        pin_d7.on()
+    pin_d4.value(data & 0x10 == 0x10)
+    pin_d5.value(data & 0x20 == 0x20)
+    pin_d6.value(data & 0x40 == 0x40)
+    pin_d7.value(data & 0x80 == 0x80)
 
     pulse_e()
 
     # low bits
-    pin_d4.off()
-    pin_d5.off()
-    pin_d6.off()
-    pin_d7.off()
-    if data & 0x01 == 0x01:
-        pin_d4.on()
-    if data & 0x02 == 0x02:
-        pin_d5.on()
-    if data & 0x04 == 0x04:
-        pin_d6.on()
-    if data & 0x08 == 0x08:
-        pin_d7.on()
+    pin_d4.value(data & 0x01 == 0x01)
+    pin_d5.value(data & 0x02 == 0x02)
+    pin_d6.value(data & 0x04 == 0x04)
+    pin_d7.value(data & 0x08 == 0x08)
 
     pulse_e()
+
 
 def pulse_e():
     pin_e.off()
@@ -87,39 +67,33 @@ def pulse_e():
 
 
 def init():
-    write_byte(0x33, CMD_MODE)
-    write_byte(0x32, CMD_MODE)
-    write_byte(0x06, CMD_MODE)
+    write_byte(0x33, CMD_MODE)  # init sequence
+    write_byte(0x32, CMD_MODE)  # init sequence
     write_byte(0x0D, CMD_MODE)
     write_byte(0x28, CMD_MODE)
-    write_byte(0x01, CMD_MODE)
+    clear_screen()
     time.sleep(E_DELAY)
-     
+
+
 def clear_screen():
     write_byte(0x06, CMD_MODE)
     write_byte(0x01, CMD_MODE)
     time.sleep(0.5)
 
-def set_line1():
-    write_byte(0x80, CMD_MODE)
 
-def set_line2():
-    write_byte(0xC0, CMD_MODE)
+def set_line(line):
+    write_byte(line, CMD_MODE)
+
+
+def display(msg, speed=0.2):
+    fmt = '{msg: <{fill}}'.format(msg=msg[0:_DISPLAY_WIDTH], fill=_DISPLAY_WIDTH)
+    for c in fmt:
+        write_byte(ord(c), CHR_MODE)
+        time.sleep(speed)
+
 
 def test():
     init()
-    clear_screen()
-    set_line2()
-    for i in range(16):
-        write_byte(ord('A'), CHR_MODE)
-        time.sleep(0.2)
-
+    set_line(LINE_TWO)
+    display('poopoo')
     time.sleep(1)
-
-def all_on():
-    pin_d4.on()
-    pin_d5.on()
-    pin_d6.on()
-    pin_d7.on()
-
-
