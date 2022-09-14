@@ -86,7 +86,7 @@ def set_line(line):
     write_byte(line, CMD_MODE)
 
 
-def display(msg, speed=0.2):
+def display(msg, speed=0.05):
     fmt = '{msg: <{fill}}'.format(msg=msg[0:_DISPLAY_WIDTH], fill=_DISPLAY_WIDTH)
     for c in fmt:
         write_byte(ord(c), CHR_MODE)

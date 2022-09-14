@@ -47,10 +47,20 @@ def parse_http(raw):
 def routes(c, req):
     if req['method'] == 'GET' and req['path'] == '/health':
         c.send('HTTP/1.1 200 Ok\n')
-    elif req['method'] == 'POST' and req['path'] == '/lcd':
-        lcd.clear_screen()
-        lcd.set_line(lcd.LINE_ONE)
-        lcd.display("hello!")
+    elif req['method'] == 'POST' and req['path'][0:4] == '/lcd':
+        splitted = req['path'].split('/', 3)
+
+        if len(splitted) != 4:
+            c.send('HTTP/1.1 400 BadRequest\n')
+            return
+
+        line = lcd.LINE_TWO if splitted[2] == '2' else lcd.LINE_ONE
+        message = splitted[3]
+
+        lcd.set_line(line)
+        lcd.display(message)
+
+        c.send('HTTP/1.1 200 Ok\n')
     else:
         c.send('HTTP/1.1 404 NotFound\n')
 
