@@ -13,8 +13,8 @@
 from machine import Pin
 import time
 
-E_PULSE = 0.001
-E_DELAY = 0.001
+E_PULSE = 0.0005
+E_DELAY = 0.0005
 
 CHR_MODE = True
 CMD_MODE = False
@@ -109,12 +109,12 @@ def set_line2():
 def test():
     init()
     clear_screen()
-    # set_line1()
+    set_line2()
     for i in range(16):
-        write_byte(ord('a'), CHR_MODE)
+        write_byte(ord('A'), CHR_MODE)
         time.sleep(0.2)
 
-    time.sleep(5)
+    time.sleep(1)
 
 def all_on():
     pin_d4.on()
