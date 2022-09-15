@@ -7,7 +7,8 @@ import network
 import config
 
 # amount of times will attempt to connect to internet before failing
-NETWORK_RETRIES = 10 
+NETWORK_RETRIES = 10
+
 
 # NETWORK CONNECTION SEQUENCE
 #   - blinking when attempting to connect to internet
@@ -16,8 +17,8 @@ NETWORK_RETRIES = 10
 def network_connect():
     pin_5 = Pin(5, Pin.OUT)
 
-    sta_if = network.WLAN(network.STA_IF) # station interface
-    ap_if = network.WLAN(network.AP_IF)   # access point interface
+    sta_if = network.WLAN(network.STA_IF)  # station interface
+    ap_if = network.WLAN(network.AP_IF)  # access point interface
 
     sta_if.active(True)
     ap_if.active(False)
@@ -42,9 +43,11 @@ def network_connect():
         pin_5.off()
         return False
 
+
 def mac_address():
     import ubinascii
-    return ubinascii.hexlify(sta_if.config('mac'), ':').decode().upper() 
+    sta_if = network.WLAN(network.STA_IF)
+    return ubinascii.hexlify(sta_if.config('mac'), ':').decode().upper()
+
 
 network_connect()
-

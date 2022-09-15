@@ -1,7 +1,7 @@
-
 PORT = 80
 TIMEOUT = 3
 MAX_BODY_SIZE = 1024
+
 
 def server():
     import socket
@@ -30,12 +30,11 @@ def server():
         routes(c, parsed_req)
         c.close()
 
+
 def parse_http(raw):
     split = raw.lstrip("b'").rstrip("'").split()
-    return {
-        'method': split[0],
-        'path': split[1]
-    }
+    return {'method': split[0], 'path': split[1]}
+
 
 def routes(c, req):
 
@@ -55,6 +54,7 @@ def routes(c, req):
     else:
         c.send('HTTP/1.1 404 NotFound\n')
 
+
 def handle_switch_set(state):
     from machine import Pin
 
@@ -64,10 +64,10 @@ def handle_switch_set(state):
     else:
         pin_4.off()
 
+
 def handle_switch_state():
     from machine import Pin
 
     pin_4 = Pin(4, Pin.OUT)
     print(pin_4.value())
     return pin_4.value()
-

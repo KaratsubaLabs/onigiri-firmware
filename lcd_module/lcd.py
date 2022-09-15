@@ -1,4 +1,3 @@
-
 ## translated from https://github.com/brantje/rpi-16x2-lcd/blob/master/lcd.py
 
 ## GPIO Layout
@@ -30,6 +29,7 @@ pin_d4 = Pin(14, Pin.OUT)
 pin_d5 = Pin(12, Pin.OUT)
 pin_d6 = Pin(13, Pin.OUT)
 pin_d7 = Pin(15, Pin.OUT)
+
 
 # mode indicates mode of operation
 #   true - character mode
@@ -87,7 +87,8 @@ def set_line(line):
 
 
 def display(msg, speed=0.05):
-    fmt = '{msg: <{fill}}'.format(msg=msg[0:_DISPLAY_WIDTH], fill=_DISPLAY_WIDTH)
+    fmt = '{msg: <{fill}}'.format(msg=msg[0:_DISPLAY_WIDTH],
+                                  fill=_DISPLAY_WIDTH)
     for c in fmt:
         write_byte(ord(c), CHR_MODE)
         time.sleep(speed)

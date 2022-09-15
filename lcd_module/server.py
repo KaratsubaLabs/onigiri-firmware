@@ -1,4 +1,3 @@
-
 PORT = 80
 TIMEOUT = 3
 MAX_BODY_SIZE = 1024
@@ -44,11 +43,7 @@ def parse_http(raw):
     if req_lines[-2] == '':
         body = req_lines[-1]
 
-    return {
-        'method': header[0],
-        'path': header[1],
-        'body': body
-    }
+    return {'method': header[0], 'path': header[1], 'body': body}
 
 
 def routes(c, req):
@@ -74,4 +69,3 @@ def routes(c, req):
         pass
     else:
         c.send('HTTP/1.1 404 NotFound\n')
-
