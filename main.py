@@ -44,10 +44,32 @@ def network_connect():
         return False
 
 
+def ping_server():
+    import urequests
+
+    sta_if = network.WLAN(network.STA_IF)
+    # TODO assert connected to internet
+    ip_addr = sta_if.ifconfig()[0]
+
+    body = {
+        'name': config.DEVICE_NAME,
+        'ip_address': ip_addr,
+        'api_type': config.API_TYPE,
+    }
+    res = urequests.post(config.SERVER_ADDR + '/v1beta/device', json=body)
+    if res.status_code != 200:
+        print('error pinging server')
+
+
 def mac_address():
     import ubinascii
     sta_if = network.WLAN(network.STA_IF)
     return ubinascii.hexlify(sta_if.config('mac'), ':').decode().upper()
 
 
-network_connect()
+if network_connect():
+
+    ping_server()
+
+    import server
+    server.server()
