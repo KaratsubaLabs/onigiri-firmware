@@ -7,6 +7,7 @@
 from machine import Pin, PWM
 
 pwm = None
+pwm_duty = None
 
 
 def init():
@@ -17,15 +18,26 @@ def init():
     pwm.init()
     pwm.freq(50)
 
+    set_angle(0)
+
 
 # takes angle in degrees
 def set_angle(angle):
     global pwm
+    global pwm_duty
 
     if pwm is None:
         print("pwm has not been initialized")
         return
-    pwm.duty(map_range(angle, 0, 180, 20, 120))
+
+    pwm_duty = map_range(angle, 0, 180, 20, 120)
+    pwm.duty(pwm_duty)
+
+
+def get_angle():
+    global pwm_duty
+
+    return map_range(pwm_duty, 20, 120, 0, 180)
 
 
 # map a value from an input range to an output range
