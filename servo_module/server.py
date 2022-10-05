@@ -2,10 +2,6 @@ PORT = 80
 TIMEOUT = 20
 MAX_BODY_SIZE = 1024
 
-import lcd
-
-lcd.init()
-
 
 def server():
     import socket
@@ -49,23 +45,3 @@ def parse_http(raw):
 def routes(c, req):
     if req['method'] == 'GET' and req['path'] == '/health':
         c.send('HTTP/1.1 200 OK\n\n')
-    elif req['method'] == 'POST' and req['path'][0:10] == '/lcd/write':
-        splitted = req['path'].rsplit('/', 1)
-
-        if splitted[1] == '1':
-            line = lcd.LINE_ONE
-        elif splitted[1] == '2':
-            line = lcd.LINE_TWO
-        else:
-            c.send('HTTP/1.1 400 BadRequest\n\n')
-            return
-
-        lcd.set_line(line)
-        lcd.display(req['body'])
-
-        c.send('HTTP/1.1 200 OK\n\n')
-
-    elif req['method'] == 'POST' and req['path'] == '/lcd/clear':
-        pass
-    else:
-        c.send('HTTP/1.1 404 NotFound\n\n')

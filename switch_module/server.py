@@ -39,20 +39,20 @@ def parse_http(raw):
 def routes(c, req):
 
     if req['method'] == 'GET' and req['path'] == '/health':
-        c.send('HTTP/1.1 200 Ok\n')
+        c.send('HTTP/1.1 200 OK\n\n')
     elif req['method'] == 'POST' and req['path'] == '/switch/on':
         handle_switch_set(True)
-        c.send('HTTP/1.1 200 Ok\n')
+        c.send('HTTP/1.1 200 OK\n\n')
     elif req['method'] == 'POST' and req['path'] == '/switch/off':
         handle_switch_set(False)
-        c.send('HTTP/1.1 200 Ok\n')
+        c.send('HTTP/1.1 200 OK\n\n')
     elif req['method'] == 'GET' and req['path'] == '/switch/state':
         state = handle_switch_state()
-        c.send('HTTP/1.1 200 Ok\n')
+        c.send('HTTP/1.1 200 OK\n')
         c.send('Content-Type: application/json\n\n')
         c.send('{"state": %d}\n' % state)
     else:
-        c.send('HTTP/1.1 404 NotFound\n')
+        c.send('HTTP/1.1 404 NotFound\n\n')
 
 
 def handle_switch_set(state):
