@@ -13,11 +13,11 @@ cp-switch:
     ampy --port /dev/ttyUSB0 put switch_module/config.py config.py
     ampy --port /dev/ttyUSB0 put switch_module/server.py server.py
 
-cp-servo:
+cp-light:
     ampy --port /dev/ttyUSB0 put main.py main.py
-    ampy --port /dev/ttyUSB0 put servo_module/config.py config.py
-    ampy --port /dev/ttyUSB0 put servo_module/server.py server.py
-    ampy --port /dev/ttyUSB0 put servo_module/servo.py servo.py
+    ampy --port /dev/ttyUSB0 put light_module/config.py config.py
+    ampy --port /dev/ttyUSB0 put light_module/server.py server.py
+    ampy --port /dev/ttyUSB0 put light_module/servo.py servo.py
 
 devsetup:
     cp dev/hooks/* .git/hooks

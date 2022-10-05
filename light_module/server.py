@@ -1,6 +1,15 @@
+import servo
+import time
+
 PORT = 80
 TIMEOUT = 20
 MAX_BODY_SIZE = 1024
+
+LIGHT_IDLE_SERVO_ANGLE = 90
+LIGHT_ON_SERVO_ANGLE = 45
+LIGHT_OFF_SERVO_ANGLE = 135
+
+servo.init(LIGHT_IDLE_SERVO_ANGLE)
 
 
 def server():
@@ -45,3 +54,17 @@ def parse_http(raw):
 def routes(c, req):
     if req['method'] == 'GET' and req['path'] == '/health':
         c.send('HTTP/1.1 200 OK\n\n')
+    elif req['method'] == 'POST' and req['path'] == '/light/on':
+        servo.set_angle(LIGHT_ON_SERVO_ANGLE)
+        time.sleep(1)
+        servo.set_angle(LIGHT_IDLE_SERVO_ANGLE)
+        time.sleep(1)
+        c.send('HTTP/1.1 200 OK\n\n')
+    elif req['method'] == 'POST' and req['path'] == '/light/off':
+        servo.set_angle(LIGHT_OFF_SERVO_ANGLE)
+        time.sleep(1)
+        servo.set_angle(LIGHT_IDLE_SERVO_ANGLE)
+        time.sleep(1)
+        c.send('HTTP/1.1 200 OK\n\n')
+    else:
+        c.send('HTTP/1.1 404 NotFound\n\n')
