@@ -19,6 +19,12 @@ cp-light:
     ampy --port /dev/ttyUSB0 put light_module/server.py server.py
     ampy --port /dev/ttyUSB0 put light_module/servo.py servo.py
 
+cp-curtain:
+    ampy --port /dev/ttyUSB0 put main.py main.py
+    ampy --port /dev/ttyUSB0 put curtain_module/config.py config.py
+    ampy --port /dev/ttyUSB0 put curtain_module/server.py server.py
+    ampy --port /dev/ttyUSB0 put curtain_module/motor.py motor.py
+
 devsetup:
     cp dev/hooks/* .git/hooks
 
