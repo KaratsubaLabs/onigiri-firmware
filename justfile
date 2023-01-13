@@ -1,15 +1,14 @@
 
 usb_port := "/dev/ttyUSB0"
-firmware_file := ""
 
 shell:
     picocom {{usb_port}} -b115200
 
-esp8266_setup:
+esp8266_setup firmware_file:
     esptool.py --port {{usb_port}} erase_flash
     esptool.py --port {{usb_port}} write_flash --flash_size=detect -fm qio 0x00000 {{firmware_file}}
 
-esp32_setup:
+esp32_setup firmware_file:
     esptool.py --chip esp32 --port {{usb_port}} erase_flash
     esptool.py --chip esp32 --port {{usb_port}} --baud 460800 write_flash -z 0x1000 {{firmware_file}}
 
