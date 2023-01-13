@@ -1,29 +1,40 @@
 
+usb_port := "/dev/ttyUSB0"
+firmware_file := ""
+
 shell:
-    picocom /dev/ttyUSB0 -b115200
+    picocom {{usb_port}} -b115200
+
+esp8266_setup:
+    esptool.py --port {{usb_port}} erase_flash
+    esptool.py --port {{usb_port}} write_flash --flash_size=detect -fm qio 0x00000 {{firmware_file}}
+
+esp32_setup:
+    esptool.py --chip esp32 --port {{usb_port}} erase_flash
+    esptool.py --chip esp32 --port {{usb_port}} --baud 460800 write_flash -z 0x1000 {{firmware_file}}
 
 cp-lcd:
-    ampy --port /dev/ttyUSB0 put main.py main.py
-    ampy --port /dev/ttyUSB0 put lcd_module/config.py config.py
-    ampy --port /dev/ttyUSB0 put lcd_module/server.py server.py 
-    ampy --port /dev/ttyUSB0 put lcd_module/lcd.py lcd.py 
+    ampy --port {{usb_port}} put main.py main.py
+    ampy --port {{usb_port}} put lcd_module/config.py config.py
+    ampy --port {{usb_port}} put lcd_module/server.py server.py 
+    ampy --port {{usb_port}} put lcd_module/lcd.py lcd.py 
 
 cp-switch:
-    ampy --port /dev/ttyUSB0 put main.py main.py
-    ampy --port /dev/ttyUSB0 put switch_module/config.py config.py
-    ampy --port /dev/ttyUSB0 put switch_module/server.py server.py
+    ampy --port {{usb_port}} put main.py main.py
+    ampy --port {{usb_port}} put switch_module/config.py config.py
+    ampy --port {{usb_port}} put switch_module/server.py server.py
 
 cp-light:
-    ampy --port /dev/ttyUSB0 put main.py main.py
-    ampy --port /dev/ttyUSB0 put light_module/config.py config.py
-    ampy --port /dev/ttyUSB0 put light_module/server.py server.py
-    ampy --port /dev/ttyUSB0 put light_module/servo.py servo.py
+    ampy --port {{usb_port}} put main.py main.py
+    ampy --port {{usb_port}} put light_module/config.py config.py
+    ampy --port {{usb_port}} put light_module/server.py server.py
+    ampy --port {{usb_port}} put light_module/servo.py servo.py
 
 cp-curtain:
-    ampy --port /dev/ttyUSB0 put main.py main.py
-    ampy --port /dev/ttyUSB0 put curtain_module/config.py config.py
-    ampy --port /dev/ttyUSB0 put curtain_module/server.py server.py
-    ampy --port /dev/ttyUSB0 put curtain_module/motor.py motor.py
+    ampy --port {{usb_port}} put main.py main.py
+    ampy --port {{usb_port}} put curtain_module/config.py config.py
+    ampy --port {{usb_port}} put curtain_module/server.py server.py
+    ampy --port {{usb_port}} put curtain_module/motor.py motor.py
 
 devsetup:
     cp dev/hooks/* .git/hooks
