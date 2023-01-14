@@ -1,4 +1,5 @@
 
+
 '''
 API
 
@@ -12,7 +13,9 @@ turn light off
 
 import socket
 import network
-import json
+import ujson
+import config
+from machine import Pin
 
 TIMEOUT = 20
 MAX_BODY_SIZE = 4096
@@ -23,6 +26,8 @@ HOST = 'home.karatsubalabs.com'
 
 def server():
 
+    pin_18 = Pin(18, Pin.OUT)
+
     sta_if = network.WLAN(network.STA_IF)
     print(sta_if.ifconfig())
 
@@ -31,20 +36,32 @@ def server():
     s = socket.socket()
     s.connect(addr)
 
-    payload = 'GET /v1beta/device/event_test HTTP/1.1\nHost: ' + HOST +'\n\n'
+    payload = 'GET /v1beta/event/device/' + config.DEVICE_NAME + ' HTTP/1.1\nHost: ' + HOST +'\n\n'
     print(payload)
     r = s.send(payload)
     while True:
 
-        req = str(s.recv(4096))
+        req = str(s.recv(4096))[2:-1]
+        if len(req) == 0:
+            continue
+
+        req = req.lstrip('data:')
+        req = req.rstrip('\\n')
         print(req)
+
         try:
-            req = req[2:-1]
-            req = req.split('\\r\\n', 2)
-            payload = req[1][5:-2]
-            print(parsed + ' ' + json.loads(payload))
-        except:
-            pass 
+            parsed = ujson.loads(req)
+            print('parsed' + str(parsed))
+        except Exception as e:
+            print('json exception '+str(e))
+            continue
+
+        if parsed['state'] == 'on':
+            pin_18.on()
+        elif parsed['state'] == 'off':
+            pin_18.off()
+        else:
+            print('invalid state: ' + parsed['state'])
 
     s.close()
 
