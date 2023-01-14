@@ -38,7 +38,7 @@ def network_connect():
             sta_if.connect(config.SSID, config.PSK)
         except:
             print("internal wifi error")
-        count += 1
+
         time.sleep(1)
         if sta_if.isconnected():
             break
@@ -52,6 +52,7 @@ def network_connect():
 
 
 def ping_server():
+
     import urequests
 
     sta_if = network.WLAN(network.STA_IF)
@@ -76,7 +77,10 @@ def mac_address():
 
 if network_connect():
 
-    #ping_server()
+    try:
+        ping_server()
+    except:
+        print('failed to ping server')
 
     import server
     server.server()
