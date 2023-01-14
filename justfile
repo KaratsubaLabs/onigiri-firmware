@@ -51,6 +51,11 @@ cp-button-event:
     ampy --port {{usb_port}} put button_module_event/config.py config.py
     ampy --port {{usb_port}} put button_module_event/server.py server.py
 
+cp-buzzer-event:
+    ampy --port {{usb_port}} put main.py main.py
+    ampy --port {{usb_port}} put buzzer_module_event/config.py config.py
+    ampy --port {{usb_port}} put buzzer_module_event/server.py server.py
+
 cp-curtain:
     ampy --port {{usb_port}} put main.py main.py
     ampy --port {{usb_port}} put curtain_module/config.py config.py
