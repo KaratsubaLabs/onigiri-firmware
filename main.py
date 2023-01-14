@@ -69,7 +69,7 @@ def mac_address():
 
 if network_connect():
 
-    ping_server()
+    #ping_server()
 
     import server
     server.server()
