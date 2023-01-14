@@ -35,7 +35,11 @@ def server():
             event = 'onPress' if state else 'onUnpress'
             body = { 'event': event, 'id': config.DEVICE_NAME }
             print('sending ' + event + ' event')
-            res = urequests.post(addr, json=body)
+            try:
+                urequests.post(addr, json=body)
+            except:
+                print('post failed')
+
             
 
     s.close()
