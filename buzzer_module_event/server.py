@@ -3,11 +3,8 @@
 '''
 API
 
-turn buzzer on
+turn alarm on
 { state: 'on' }
-
-turn buzzer off
-{ state: 'off' }
 
 '''
 
@@ -41,6 +38,8 @@ def server():
     print(payload)
     r = s.send(payload)
 
+    pin_18.off()
+
     while True:
 
         req = str(s.recv(4096))[2:-1]
@@ -59,9 +58,11 @@ def server():
             continue
 
         if parsed['state'] == 'on':
-            pin_18.on()
-        elif parsed['state'] == 'off':
-            pin_18.off()
+            for i in range(5):
+                time.sleep(1)
+                pin_18.on()
+                time.sleep(1)
+                pin_18.off()
         else:
             print('invalid state: ' + parsed['state'])
 
