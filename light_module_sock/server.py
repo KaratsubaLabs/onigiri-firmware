@@ -27,9 +27,9 @@ def server():
     leds = [
         Pin(27, Pin.OUT),  # good
         Pin(19, Pin.OUT),  # good
-        Pin(21, Pin.OUT),
+        Pin(18, Pin.OUT),  # good
         Pin(22, Pin.OUT),  # good
-        Pin(23, Pin.OUT),
+        Pin(23, Pin.OUT),  # good
         Pin(32, Pin.OUT)  # good
     ]
     ledsOutput = [0 for i in range(len(leds))]
