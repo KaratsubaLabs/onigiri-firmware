@@ -72,7 +72,13 @@ cp-ultrasonic-event:
     ampy --port {{usb_port}} put main.py main.py
     ampy --port {{usb_port}} put ultrasonic_module_event/config.py config.py
     ampy --port {{usb_port}} put ultrasonic_module_event/server.py server.py
-    ampy --port {{usb_port}} put ultrasonic_module_event/hcsr04.py hcsr04.py
+    ampy --port {{usb_port}} put lib/hcsr04.py
+
+cp-door-event:
+    ampy --port {{usb_port}} put main.py main.py
+    ampy --port {{usb_port}} put door_module_event/config.py config.py
+    ampy --port {{usb_port}} put door_module_event/server.py server.py
+    ampy --port {{usb_port}} put door_module_event/servo.py servo.py
 
 devsetup:
     cp dev/hooks/* .git/hooks
