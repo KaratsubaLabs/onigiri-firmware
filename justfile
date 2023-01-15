@@ -18,6 +18,12 @@ cp-lcd:
     ampy --port {{usb_port}} put lcd_module/server.py server.py 
     ampy --port {{usb_port}} put lcd_module/lcd.py lcd.py 
 
+cp-lcd-event:
+    ampy --port {{usb_port}} put main.py main.py
+    ampy --port {{usb_port}} put lcd_module_event/config.py config.py
+    ampy --port {{usb_port}} put lcd_module_event/server.py server.py 
+    ampy --port {{usb_port}} put lcd_module_event/lcd.py lcd.py 
+
 cp-switch:
     ampy --port {{usb_port}} put main.py main.py
     ampy --port {{usb_port}} put switch_module/config.py config.py
@@ -61,6 +67,12 @@ cp-curtain:
     ampy --port {{usb_port}} put curtain_module/config.py config.py
     ampy --port {{usb_port}} put curtain_module/server.py server.py
     ampy --port {{usb_port}} put curtain_module/motor.py motor.py
+
+cp-ultrasonic-event:
+    ampy --port {{usb_port}} put main.py main.py
+    ampy --port {{usb_port}} put ultrasonic_module_event/config.py config.py
+    ampy --port {{usb_port}} put ultrasonic_module_event/server.py server.py
+    ampy --port {{usb_port}} put ultrasonic_module_event/hcsr04.py hcsr04.py
 
 devsetup:
     cp dev/hooks/* .git/hooks
