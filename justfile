@@ -61,10 +61,10 @@ cp-curtain:
     ampy --port {{usb_port}} put curtain_module/server.py server.py
     ampy --port {{usb_port}} put curtain_module/motor.py motor.py
 
-cp-ultrasonic-event:
+cp-alarm-event:
     ampy --port {{usb_port}} put main.py main.py
-    ampy --port {{usb_port}} put ultrasonic_module_event/config.py config.py
-    ampy --port {{usb_port}} put ultrasonic_module_event/server.py server.py
+    ampy --port {{usb_port}} put alarm_module_event/config.py config.py
+    ampy --port {{usb_port}} put alarm_module_event/server.py server.py
     ampy --port {{usb_port}} put lib/hcsr04.py
 
 cp-door-event:

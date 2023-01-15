@@ -51,6 +51,15 @@ def proximity_sensor():
         if distance < THRESHOLD and alarm_is_armed:
             print('TRIGGER')
 
+            # send event to server
+            addr = config.SERVER_ADDR + '/v1beta/client/device'
+            body = { 'event': 'intruder', 'id': config.DEVICE_NAME }
+            print('sending ' + event + ' event')
+            try:
+                urequests.post(addr, json=body)
+            except:
+                print('post failed')
+
             for i in range(5):
                 time.sleep(1)
                 pin_18.on()
