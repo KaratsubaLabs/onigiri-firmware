@@ -25,12 +25,12 @@ def server():
     from machine import Pin
     import time
     leds = [
+        Pin(27, Pin.OUT),  # good
+        Pin(19, Pin.OUT),  # good
+        Pin(21, Pin.OUT),
+        Pin(22, Pin.OUT),  # good
         Pin(23, Pin.OUT),
-        Pin(25, Pin.OUT),
-        Pin(26, Pin.OUT),
-        Pin(27, Pin.OUT),
-        Pin(32, Pin.OUT),
-        Pin(33, Pin.OUT)
+        Pin(32, Pin.OUT)  # good
     ]
     ledsOutput = [0 for i in range(len(leds))]
 

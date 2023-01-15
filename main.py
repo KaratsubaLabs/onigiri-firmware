@@ -24,14 +24,21 @@ def network_connect():
     ap_if.active(False)
 
     time.sleep(3)
-    for i in range(NETWORK_RETRIES):
+    count = 0
+    while (not sta_if.isconnected()):
+        if count > NETWORK_RETRIES:
+            break
         for j in range(5):
             pin_5.on()
             time.sleep(0.1)
             pin_5.off()
             time.sleep(0.1)
 
-        sta_if.connect(config.SSID, config.PSK)
+        try:
+            sta_if.connect(config.SSID, config.PSK)
+        except:
+            print("internal wifi error")
+        count += 1
         time.sleep(1)
         if sta_if.isconnected():
             break
