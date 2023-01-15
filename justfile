@@ -40,13 +40,6 @@ cp-light-sock:
     ampy --port {{usb_port}} put light_module_sock/config.py config.py
     ampy --port {{usb_port}} put light_module_sock/server.py server.py
 
-
-cp-ultrasonic:
-    ampy --port {{usb_port}} put main.py main.py
-    ampy --port {{usb_port}} put ultrasonic_module_sock/config.py config.py
-    ampy --port {{usb_port}} put ultrasonic_module_sock/server.py server.py
-    ampy --port {{usb_port}} put ultrasonic_module_sock/hcsr04.py hcsr04.py
-
 cp-led-event:
     ampy --port {{usb_port}} put main.py main.py
     ampy --port {{usb_port}} put led_module_event/config.py config.py
