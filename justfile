@@ -35,10 +35,10 @@ cp-light:
     ampy --port {{usb_port}} put light_module/server.py server.py
     ampy --port {{usb_port}} put light_module/servo.py servo.py
 
-cp-light-sock:
+cp-light-event:
     ampy --port {{usb_port}} put main.py main.py
-    ampy --port {{usb_port}} put light_module_sock/config.py config.py
-    ampy --port {{usb_port}} put light_module_sock/server.py server.py
+    ampy --port {{usb_port}} put light_module_event/config.py config.py
+    ampy --port {{usb_port}} put light_module_event/server.py server.py
 
 cp-led-event:
     ampy --port {{usb_port}} put main.py main.py
